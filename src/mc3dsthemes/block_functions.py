@@ -11,6 +11,29 @@ def coords_inside_chunk(bx, by, bz):
 def chunk_to_region_coords(cx, cz):
     return tuple(map(lambda i: math.floor(i / 32), (cx, cz)))
 
+# Copy of get_top_block_img that was changed a bit, will modify these 2 funcs so they will be efficient and also avoid D.R.Y
+def get_block_img(overworld_path, bx, by, bz):
+    chunk_pos = block_to_chunk_coords(bx, 0, bz)
+    region_pos = chunk_to_region_coords(*(chunk_pos[::2]))
+    cic = coords_inside_chunk(bx, 0, bz)
+
+    region_file_name = f'{overworld_path}/r.{region_pos[0]}.{region_pos[1]}.mca'
+
+    region = anvil.Region.from_file(region_file_name)
+    chunk = anvil.Chunk.from_region(region, chunk_pos[0], chunk_pos[2])
+
+    block = block = chunk.get_block(cic[0], by, cic[2])
+
+    if block.id != "air":
+        try:
+            return Image.open(f"block/{block.id}.png")
+        except FileNotFoundError:
+            print(f"Couldn't find the texture \"{block.id}\". Continuing to the next block.")
+        except Exception as e:
+                print("Exception: {e}. Continuing to next block.")
+
+    return None
+
 def get_top_block_img(overworld_path, bx, bz):
     chunk_pos = block_to_chunk_coords(bx, 0, bz)
     region_pos = chunk_to_region_coords(*(chunk_pos[::2]))
@@ -61,6 +84,3 @@ def average_block_color(block_id):
     average_color = tuple(value // img_size for value in rgb_sum)
 
     return average_color[0] << 16 | average_color[1] << 8 | average_color[2]
-    
-def resize_nearest(img, multiplier):
-    return img.resize(img.size * multiplier, Image.NEAREST)
