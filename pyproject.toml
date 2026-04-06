@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mc3dsthemes"
+version = "0.1.0"
+description = "Make a 3ds theme in Minecraft."
+readme = "README.md"
+authors = [
+    { name = "Intedai", email = "69306633+Intedai@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pillow>=12.2.0",
+    "anvil-parser2==0.10.6"
+]
