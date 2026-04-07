@@ -83,4 +83,4 @@ def average_block_color(block_id):
 
     average_color = tuple(value // img_size for value in rgb_sum)
 
-    return average_color[0] << 16 | average_color[1] << 8 | average_color[2]
+    return average_color

@@ -1,7 +1,7 @@
-from .block_functions import render_rectangle_img, get_block_img, average_block_color
 from PIL import Image
 from pathlib import Path
-
+from .block_funcs import render_rectangle_img, get_block_img, average_block_color
+from .rc_funcs import make_color_dict
 SCREEN_IMG_SIZE = (512, 256)
 
 # Top screen
@@ -47,6 +47,10 @@ def create_screen_imgs(top_minecraft_render: Image.Image, bottom_minecraft_rende
 
     top_final.save(output_dir / TOP_SCREEN_FILE_NAME)
     bottom_final.save(output_dir / BOTTOM_SCREEN_FILE_NAME)
+
+def make_final_color_dict():
+    #make_color_dict(params) using average colors and const coords above
+    pass
 
 def create_preview_img(top_minecraft_render: Image.Image, bottom_minecraft_render: Image.Image) -> None:
     pass
