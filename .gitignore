@@ -2,6 +2,10 @@
 # Minecraft's textures for now, not allowed to distribute unfortunately
 block/
 tmp/
+kame-tools
+# Generated themes
+*.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
