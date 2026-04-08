@@ -29,7 +29,7 @@ def main():
         False
     )
 
-    create_preview_img(top_img, bottom_img)
+    create_preview_img(top_img, bottom_img, temp_dir)
 
     if temp_dir.exists():
         #rmtree(temp_dir)

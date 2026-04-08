@@ -2,6 +2,8 @@ from PIL import Image
 from pathlib import Path
 from .block_funcs import render_rectangle_img, get_block_img, average_block_color
 from .rc_funcs import make_color_dict
+
+ASSETS_PATH = Path(__file__).parent / "assets"
 SCREEN_IMG_SIZE = (512, 256)
 
 # Top screen
@@ -52,6 +54,18 @@ def make_final_color_dict():
     #make_color_dict(params) using average colors and const coords above
     pass
 
-def create_preview_img(top_minecraft_render: Image.Image, bottom_minecraft_render: Image.Image) -> None:
-    pass
+def create_preview_img(top_minecraft_render: Image.Image, bottom_minecraft_render: Image.Image, output_dir: Path) -> None:
+    top_w, top_h = top_minecraft_render.size
+    bottom_w, bottom_h = bottom_minecraft_render.size
+
+    preview = Image.new("RGBA", (top_w, top_h + bottom_h))
+    
+    top_info_overlay = Image.open(ASSETS_PATH / "top_info_overlay.png")
+    
+    preview.paste(top_minecraft_render, (0, 0))
+    preview.paste(bottom_minecraft_render, ((top_w - bottom_w) // 2, top_h))
+    preview.alpha_composite(top_info_overlay, (0, 0))
+    
+    preview.save(output_dir / "preview.png")
+
 #print(f"Red wool average color: {hex(average_block_color("red_wool"))}")
