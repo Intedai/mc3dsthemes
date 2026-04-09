@@ -2,8 +2,13 @@ from PIL import Image
 from pathlib import Path
 from .block_funcs import render_rectangle_img, get_block_img, average_block_color
 from .rc_funcs import make_color_dict
+from .text_generator import TextGenerator
+import datetime as dt
+from calendar import day_abbr
 
 ASSETS_PATH = Path(__file__).parent / "assets"
+FONTS_PATH = ASSETS_PATH / "fonts"
+FONT_PATH = FONTS_PATH  / "Ubuntu-Regular.ttf"
 SCREEN_IMG_SIZE = (512, 256)
 
 # Top screen
@@ -59,13 +64,19 @@ def create_preview_img(top_minecraft_render: Image.Image, bottom_minecraft_rende
     bottom_w, bottom_h = bottom_minecraft_render.size
 
     preview = Image.new("RGBA", (top_w, top_h + bottom_h))
-    
     top_info_overlay = Image.open(ASSETS_PATH / "top_info_overlay.png")
     
+    text_generator = TextGenerator(preview, FONT_PATH)
+
     preview.paste(top_minecraft_render, (0, 0))
     preview.paste(bottom_minecraft_render, ((top_w - bottom_w) // 2, top_h))
     preview.alpha_composite(top_info_overlay, (0, 0))
-    
+
+    now = dt.datetime.now()
+    top_info_text = now.strftime(f"300      %m/%d ({day_abbr[now.weekday()]})   %H:%M")
+
+    text_generator.draw_outlined_text((168, 1), top_info_text, 16, (50, 50, 50), (255, 255, 255), 1)
+
     preview.save(output_dir / "preview.png")
 
 #print(f"Red wool average color: {hex(average_block_color("red_wool"))}")
