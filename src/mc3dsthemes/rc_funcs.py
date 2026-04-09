@@ -49,9 +49,9 @@ def add_colors_to_dict(
 ):
     add_color_to_dict(color_dict, f"{key}.main", color)
     if add_dark:
-        add_color_to_dict(color_dict, f"{key}.dark", color)
+        add_color_to_dict(color_dict, f"{key}.dark", darken_color(color))
     if add_light:
-        add_color_to_dict(color_dict, f"{key}.light", color)
+        add_color_to_dict(color_dict, f"{key}.light", lighten_color(color))
     if shadow:
         add_color_to_dict(color_dict, f"{key}.shadow", shadow)
     if glow:
